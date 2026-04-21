@@ -6,7 +6,7 @@
 
 ## 💡 La Vision : La fin des chats isolés
 
-Le problème des outils comme Cursor ou Copilot est leur mémoire "en silo". Une fois une discussion terminée, l'IA perd souvent le fil des décisions architecturales prises. 
+Le problème des outils comme Cursor ou Copilot est leur mémoire "en silo". Une fois une discussion terminée, l'IA perd souvent le fil des décisions architecturales prises.
 
 **Neo Code** introduit le concept de **Shared Context Management** :
 
