@@ -8,10 +8,6 @@ Voici la version mise à jour de ton README avec le nom **Neo Code** et les tech
 
 **Neo Code** est un environnement de développement expérimental conçu avec Flutter Desktop pour Windows. Plus qu'un simple éditeur de texte, Neo Code est pensé pour être un véritable collaborateur intelligent capable de maintenir un **contexte persistant et croisé entre toutes vos sessions de chat.**
 
-![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-![AI](https://img.shields.io/badge/Powered%20by-GLM%205.1-red?style=for-the-badge)
-
 ---
 
 ## 💡 La Vision : La fin des chats isolés
