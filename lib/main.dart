@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'src/ui/home_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -59,16 +61,8 @@ class NeoEditorScreen extends ConsumerWidget {
         children: [
           // Barre de titre personnalisée pour pouvoir déplacer la fenêtre "frameless"
           const WindowTitleBar(),
-          
-          Expanded(
-            child: Center(
-              child: Text(
-                'Bienvenue dans Neo Code\nL\'interface frameless est prête !',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ),
-          ),
+
+          Expanded(child: const HomeScreen()),
         ],
       ),
     );
@@ -81,7 +75,7 @@ class WindowTitleBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // DragToMoveArea permet aux utilisateurs de faire glisser la fenêtre 
+    // DragToMoveArea permet aux utilisateurs de faire glisser la fenêtre
     // en maintenant le clic sur la barre, ce qui est nécessaire sans la barre standard de l'OS.
     return DragToMoveArea(
       child: Container(
@@ -94,10 +88,7 @@ class WindowTitleBar extends StatelessWidget {
             const SizedBox(width: 16.0),
             const Icon(Icons.code, size: 20.0),
             const SizedBox(width: 12.0),
-            Text(
-              'Neo Code',
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
+            Text('Neo Code', style: Theme.of(context).textTheme.titleSmall),
             const Spacer(),
             // Fenêtre de contrôles natifs Windows (réduire, agrandir, fermer)
             const WindowButtons(),
