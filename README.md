@@ -9,6 +9,7 @@
 Le problème des outils comme Cursor ou Copilot est leur mémoire "en silo". Une fois une discussion terminée, l'IA perd souvent le fil des décisions architecturales prises. 
 
 **Neo Code** introduit le concept de **Shared Context Management** :
+
 - **Référencement Croisé** : Interrogez un chat passé pour influencer le code actuel (ex: *"En utilisant la logique de validation du Chat A, implémente le formulaire B"*).
 - **Mémoire Relationnelle** : Grâce à une base de données SQL locale, l'IDE cartographie les liens entre vos fichiers, vos modifications et vos discussions.
 
@@ -33,7 +34,7 @@ Le problème des outils comme Cursor ou Copilot est leur mémoire "en silo". Une
 | **State Management** | [Riverpod 3.0](https://riverpod.dev) |
 | **AI Logic / Flows** | [Firebase Genkit](https://firebase.google.com/docs/genkit) |
 | **Database** | [Drift](https://drift.simonbinder.eu/) |
-| **Window Mgmt**| [window_manager](https://pub.dev/packages/window_manager) |
+| **Window Mgmt** | [window_manager](https://pub.dev/packages/window_manager) |
 | **Theming** | [theme_tailor](https://pub.dev/packages/theme_tailor) |
 
 ---
@@ -55,23 +56,26 @@ graph TD
 
 ## 🚀 Installation
 
-1. **Prérequis** : 
+1. **Prérequis** :
    - Flutter SDK (Latest Stable)
    - Visual Studio (Desktop development with C++)
    - Clé API Z.ai (BigModel)
 
 2. **Setup** :
+
    ```bash
    git clone https://github.com/Nirsu/neo_code.git
    cd neo-code
    ```
 
 3. **Génération de code** (Drift, Riverpod, Tailor) :
+
    ```bash
    dart run build_runner build --delete-conflicting-outputs
    ```
 
 4. **Run** :
+
    ```bash
    flutter run -d windows
    ```
