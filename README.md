@@ -1,9 +1,3 @@
-C'est noté ! **Neo Code**, ça sonne super bien. C'est court, moderne et ça évoque bien le côté "nouvelle génération" d'éditeur.
-
-Voici la version mise à jour de ton README avec le nom **Neo Code** et les technologies que nous avons validées.
-
-***
-
 # 🚀 Neo Code : Next-Gen AI-First IDE
 
 **Neo Code** est un environnement de développement expérimental conçu avec Flutter Desktop pour Windows. Plus qu'un simple éditeur de texte, Neo Code est pensé pour être un véritable collaborateur intelligent capable de maintenir un **contexte persistant et croisé entre toutes vos sessions de chat.**
