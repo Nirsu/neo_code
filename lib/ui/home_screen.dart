@@ -4,7 +4,7 @@ import 'package:code_forge/code_forge.dart';
 import 'package:re_highlight/languages/dart.dart';
 
 import 'package:neo_code/i18n/strings.g.dart';
-import 'package:neo_code/src/ui/theme/neo_theme.dart';
+import 'package:neo_code/ui/theme/neo_theme.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,17 +17,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _sidebarVisible = true;
   bool _chatVisible = false;
   int _activeIndex = 0;
-
-  void _toggleSidebar() {
-    setState(() {
-      _sidebarVisible = !_sidebarVisible;
-      if (!_sidebarVisible && _activeIndex == 0) {
-        _activeIndex = -1;
-      } else if (_sidebarVisible && _activeIndex == -1) {
-        _activeIndex = 0;
-      }
-    });
-  }
 
   void _toggleChat() {
     setState(() {
@@ -61,18 +50,18 @@ class _HomeScreenState extends State<HomeScreen> {
         Area(
           size: 250,
           min: 150,
-          builder: (_, __) => const _Sidebar(),
+          builder: (_, _) => const _Sidebar(),
         ),
       Area(
         flex: 1,
         min: 300,
-        builder: (_, __) => const _CodeEditorArea(),
+        builder: (_, _) => const _CodeEditorArea(),
       ),
       if (_chatVisible)
         Area(
           size: 350,
           min: 200,
-          builder: (_, __) => const _ChatPanel(),
+          builder: (_, _) => const _ChatPanel(),
         ),
     ];
   }

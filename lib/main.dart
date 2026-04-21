@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:slang_flutter/slang_flutter.dart';
 
 import 'i18n/strings.g.dart';
-import 'src/ui/theme/neo_theme.dart';
-import 'src/ui/home_screen.dart';
+import 'ui/theme/neo_theme.dart';
+import 'ui/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -16,13 +16,21 @@ class NeoTheme extends ThemeExtension<NeoTheme> with _$NeoThemeTailorMixin {
     required this.titleBarBg,
   });
 
+  @override
   final Color editorBg;
+  @override
   final Color sidebarBg;
+  @override
   final Color dividerColor;
+  @override
   final Color accentColor;
+  @override
   final Color hoverBg;
+  @override
   final Color textPrimary;
+  @override
   final Color textSecondary;
+  @override
   final Color titleBarBg;
 
   static const dark = NeoTheme(
