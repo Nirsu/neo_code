@@ -17,6 +17,17 @@
     "title": "Neo Code"
   },
   "editor": {
-    "placeholder": "Neo Code est prêt !"
+    "placeholder": "Neo Code est prêt !",
+    "noFileOpen": "Aucun fichier ouvert"
+  },
+  "welcome": {
+    "title": "Neo Code",
+    "subtitle": "L'IDE IA du futur",
+    "openProject": "Ouvrir un projet",
+    "openRecent": "Ouvrir récent"
+  },
+  "fileTree": {
+    "emptyFolder": "Ce dossier est vide",
+    "openFileError": "Impossible de lire le fichier"
   }
 }

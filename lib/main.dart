@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:marionette_flutter/marionette_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'i18n/strings.g.dart';
@@ -7,7 +9,11 @@ import 'ui/theme/neo_theme.dart';
 import 'ui/home_screen.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  if (kDebugMode) {
+    MarionetteBinding.ensureInitialized();
+  } else {
+    WidgetsFlutterBinding.ensureInitialized();
+  }
 
   await windowManager.ensureInitialized();
 
