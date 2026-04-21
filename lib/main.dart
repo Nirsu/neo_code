@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:slang_flutter/slang_flutter.dart';
 
+import 'i18n/strings.g.dart';
+import 'src/ui/theme/neo_theme.dart';
 import 'src/ui/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialisation de window_manager pour la fenêtre native
   await windowManager.ensureInitialized();
+
+  LocaleSettings.useDeviceLocale();
 
   const windowOptions = WindowOptions(
     size: Size(1280, 720),
@@ -16,18 +20,18 @@ void main() async {
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.hidden, // Rend la fenêtre frameless
+    titleBarStyle: TitleBarStyle.hidden,
     title: 'Neo Code',
   );
 
-  // Remplace la fenêtre par défaut et attend qu'elle soit rendue avant de l'afficher
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
     await windowManager.focus();
   });
 
-  // Lancement de l'application englobée dans un ProviderScope pour Riverpod
-  runApp(const ProviderScope(child: NeoCodeApp()));
+  runApp(
+    TranslationProvider(child: ProviderScope(child: const NeoCodeApp())),
+  );
 }
 
 class NeoCodeApp extends StatelessWidget {
@@ -38,12 +42,15 @@ class NeoCodeApp extends StatelessWidget {
     return MaterialApp(
       title: 'Neo Code',
       debugShowCheckedModeBanner: false,
+      locale: TranslationProvider.of(context).flutterLocale,
+      supportedLocales: AppLocaleUtils.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blueAccent,
+          seedColor: const Color(0xFF58A6FF),
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
+        extensions: const <ThemeExtension<dynamic>>[NeoTheme.dark],
       ),
       home: const NeoEditorScreen(),
     );
@@ -55,13 +62,12 @@ class NeoEditorScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final neo = Theme.of(context).extension<NeoTheme>()!;
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: neo.editorBg,
       body: Column(
         children: [
-          // Barre de titre personnalisée pour pouvoir déplacer la fenêtre "frameless"
-          const WindowTitleBar(),
-
+          WindowTitleBar(neoTheme: neo),
           Expanded(child: const HomeScreen()),
         ],
       ),
@@ -69,28 +75,31 @@ class NeoEditorScreen extends ConsumerWidget {
   }
 }
 
-/// Barre de titre native personnalisée
 class WindowTitleBar extends StatelessWidget {
-  const WindowTitleBar({super.key});
+  final NeoTheme neoTheme;
+
+  const WindowTitleBar({super.key, required this.neoTheme});
 
   @override
   Widget build(BuildContext context) {
-    // DragToMoveArea permet aux utilisateurs de faire glisser la fenêtre
-    // en maintenant le clic sur la barre, ce qui est nécessaire sans la barre standard de l'OS.
     return DragToMoveArea(
       child: Container(
         height: 48.0,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        ),
+        decoration: BoxDecoration(color: neoTheme.titleBarBg),
         child: Row(
           children: [
             const SizedBox(width: 16.0),
-            const Icon(Icons.code, size: 20.0),
+            Icon(Icons.code, size: 20.0, color: neoTheme.textPrimary),
             const SizedBox(width: 12.0),
-            Text('Neo Code', style: Theme.of(context).textTheme.titleSmall),
+            Text(
+              t.ui.titleBar.title,
+              style: TextStyle(
+                color: neoTheme.textPrimary,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             const Spacer(),
-            // Fenêtre de contrôles natifs Windows (réduire, agrandir, fermer)
             const WindowButtons(),
           ],
         ),
@@ -99,7 +108,6 @@ class WindowTitleBar extends StatelessWidget {
   }
 }
 
-/// Les boutons de fenêtre (réduire, fermer, etc.)
 class WindowButtons extends StatelessWidget {
   const WindowButtons({super.key});
 

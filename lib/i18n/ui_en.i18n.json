@@ -1,0 +1,22 @@
+{
+  "activityBar": {
+    "explorer": "Explorer",
+    "search": "Search",
+    "chat": "Chat",
+    "settings": "Settings"
+  },
+  "sidebar": {
+    "header": "EXPLORER",
+    "placeholder": "Explorer (Coming soon)"
+  },
+  "chat": {
+    "header": "CHAT",
+    "placeholder": "AI Chat (Coming soon)"
+  },
+  "titleBar": {
+    "title": "Neo Code"
+  },
+  "editor": {
+    "placeholder": "Neo Code is ready!"
+  }
+}
