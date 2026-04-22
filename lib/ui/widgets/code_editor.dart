@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:code_forge/code_forge.dart';
 import 'package:re_highlight/languages/dart.dart';
@@ -20,7 +22,9 @@ class CodeEditorArea extends ConsumerStatefulWidget {
 class _CodeEditorAreaState extends ConsumerState<CodeEditorArea> {
   late final CodeForgeController _codeController;
   String? _displayedPath;
-  bool _isDirty = false;
+  Timer? _debounceTimer;
+
+  static const _autoSaveDelay = Duration(milliseconds: 1500);
 
   @override
   void initState() {
@@ -30,13 +34,23 @@ class _CodeEditorAreaState extends ConsumerState<CodeEditorArea> {
   }
 
   void _onTextChanged() {
-    if (!_isDirty && _displayedPath != null) {
-      _isDirty = true;
+    if (_displayedPath == null) return;
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(_autoSaveDelay, () {
+      _saveFile(_displayedPath!);
+    });
+  }
+
+  void _saveNow() {
+    _debounceTimer?.cancel();
+    if (_displayedPath != null) {
+      _saveFile(_displayedPath!);
     }
   }
 
   @override
   void dispose() {
+    _debounceTimer?.cancel();
     _codeController.removeListener(_onTextChanged);
     _codeController.dispose();
     super.dispose();
@@ -48,10 +62,10 @@ class _CodeEditorAreaState extends ConsumerState<CodeEditorArea> {
     final filePath = ref.watch(activeFileProvider);
 
     if (filePath != _displayedPath) {
-      if (_isDirty && _displayedPath != null) {
+      _debounceTimer?.cancel();
+      if (_displayedPath != null) {
         _saveFile(_displayedPath!);
       }
-      _isDirty = false;
       _displayedPath = filePath;
       _loadFile(filePath);
     }
@@ -68,24 +82,37 @@ class _CodeEditorAreaState extends ConsumerState<CodeEditorArea> {
       );
     }
 
-    return CodeForge(
-      controller: _codeController,
-      language: langDart,
-      editorTheme: githubDarkTheme,
-      textStyle: const TextStyle(
-        fontFamily: 'Consolas',
-        fontSize: 14,
-        height: 1.5,
-      ),
-      gutterStyle: GutterStyle(
-        backgroundColor: const Color(0xff0d1117),
-        activeLineNumberColor: neo.textPrimary,
-        inactiveLineNumberColor: neo.textSecondary,
-      ),
-      selectionStyle: CodeSelectionStyle(
-        cursorColor: const Color(0xff58a6ff),
-        selectionColor: const Color(0x4026444d),
-        cursorBubbleColor: const Color(0xff58a6ff),
+    return Shortcuts(
+      shortcuts: {
+        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyS):
+            const _SaveIntent(),
+      },
+      child: Actions(
+        actions: {
+          _SaveIntent: CallbackAction<_SaveIntent>(
+            onInvoke: (_) => _saveNow(),
+          ),
+        },
+        child: CodeForge(
+          controller: _codeController,
+          language: langDart,
+          editorTheme: githubDarkTheme,
+          textStyle: const TextStyle(
+            fontFamily: 'Consolas',
+            fontSize: 14,
+            height: 1.5,
+          ),
+          gutterStyle: GutterStyle(
+            backgroundColor: const Color(0xff0d1117),
+            activeLineNumberColor: neo.textPrimary,
+            inactiveLineNumberColor: neo.textSecondary,
+          ),
+          selectionStyle: CodeSelectionStyle(
+            cursorColor: const Color(0xff58a6ff),
+            selectionColor: const Color(0x4026444d),
+            cursorBubbleColor: const Color(0xff58a6ff),
+          ),
+        ),
       ),
     );
   }
@@ -111,4 +138,8 @@ class _CodeEditorAreaState extends ConsumerState<CodeEditorArea> {
       file.writeAsStringSync(_codeController.text);
     } catch (_) {}
   }
+}
+
+class _SaveIntent extends Intent {
+  const _SaveIntent();
 }

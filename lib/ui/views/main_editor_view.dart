@@ -7,6 +7,7 @@ import 'package:neo_code/ui/theme/neo_theme.dart';
 import 'package:neo_code/ui/widgets/activity_bar.dart';
 import 'package:neo_code/ui/widgets/file_tree.dart';
 import 'package:neo_code/ui/widgets/code_editor.dart';
+import 'package:neo_code/ui/widgets/chat_panel.dart';
 
 class MainEditorView extends ConsumerStatefulWidget {
   final String projectPath;
@@ -75,7 +76,7 @@ class _MainEditorViewState extends ConsumerState<MainEditorView> {
         Area(
           size: 350,
           min: 200,
-          builder: (_, _) => const _ChatPanel(),
+          builder: (_, _) => const ChatPanel(),
         ),
     ];
 
@@ -160,43 +161,3 @@ class _Sidebar extends StatelessWidget {
   }
 }
 
-class _ChatPanel extends StatelessWidget {
-  const _ChatPanel();
-
-  @override
-  Widget build(BuildContext context) {
-    final neo = Theme.of(context).extension<NeoTheme>()!;
-
-    return Container(
-      color: neo.sidebarBg,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 40,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              t.ui.chat.header,
-              style: TextStyle(
-                color: neo.textSecondary,
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1,
-              ),
-            ),
-          ),
-          Divider(height: 1, thickness: 1, color: neo.dividerColor),
-          Expanded(
-            child: Center(
-              child: Text(
-                t.ui.chat.placeholder,
-                style: TextStyle(color: neo.textSecondary, fontSize: 13),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
